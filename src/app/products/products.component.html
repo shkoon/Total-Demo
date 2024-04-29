@@ -1,0 +1,41 @@
+<div class="p-3">
+  <div class="card">
+    <div class="card-body">
+      <input type="text" [(ngModel)]="appState.productState.keyword">
+      <button (click)="getProducts()" class="btn btn-success">Search
+      <i class="bi bi-search"></i></button>
+
+     <table class="table">
+
+       <thead>
+        <tr>
+          <th>Name</th><th>Price</th><th>Checked</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr *ngFor="let product of appState.productState.products">
+         <td>{{product.name}}</td>
+         <td>{{product.price}}</td>
+         <td *ngIf="appState.authState.roles.includes('ADMIN')" ><button [class]="product.checked?'btn btn-success':'btn btn-danger'"  (click)="handleCheck(product)">
+           <i [class]="product.checked?'bi bi-check':'bi bi-x'"></i>
+         </button></td>
+         <td *ngIf="appState.authState.roles.includes('ADMIN')"><button class="btn btn-danger" (click)="handleDelete(product)">
+           <i class="bi bi-trash"></i>
+         </button></td>
+         <td *ngIf="appState.authState.roles.includes('ADMIN')" >
+         <button class="btn btn-warning" (click)="handleEdit(product)">
+           <i class="bi bi-pen"></i>
+         </button></td>
+       </tr>
+       </tbody>
+     </table>
+    </div>
+    <div class="card-footer">
+      <ul class="nav nav-pills">
+        <li *ngFor="let page of [].constructor(appState.productState.totalPages);let i=index" >
+          <button [ngClass]="appState.productState.currentPage==i+1?'btn btn-success ms-1':'btn btn-outline-success ms-1'" (click)="setCurrentPage(i+1)"> {{i+1}}</button>
+          </li>
+      </ul>
+    </div>
+  </div>
+</div>
